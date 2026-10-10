@@ -135,6 +135,9 @@ const englishCopy = {
   replayCompare: "Replay comparison",
   noSavedRuns: "Complete an exercise to save a run here.",
   savedRuns: "Recent completed runs",
+  sharedRunsUnavailable: "Shared run history is unavailable. Check the server connection and retry.",
+  loadingRuns: "Loading shared runs…",
+  retry: "Retry",
   presentationTitle: "PulseCity in 60 seconds",
   presentationIntro: "This is a training simulation with fictional service points and neighborhood data.",
   presentationRoles: "Switch team perspectives to review different responsibilities and hand off actions.",
@@ -282,6 +285,9 @@ const translatedCopy: Record<Language, Partial<Record<CopyKey, string>>> = {
     replayCompare: "ಮರುಪ್ರಯತ್ನ ಹೋಲಿಕೆ",
     noSavedRuns: "ಅಭ್ಯಾಸ ಪೂರ್ಣಗೊಳಿಸಿದಾಗ ಇಲ್ಲಿ ಉಳಿಯುತ್ತದೆ.",
     savedRuns: "ಇತ್ತೀಚಿನ ಪೂರ್ಣಗೊಂಡ ಅಭ್ಯಾಸಗಳು",
+    sharedRunsUnavailable: "ಹಂಚಿಕೊಂಡ ಅಭ್ಯಾಸ ಇತಿಹಾಸ ಲಭ್ಯವಿಲ್ಲ. ಸರ್ವರ್ ಸಂಪರ್ಕ ಪರಿಶೀಲಿಸಿ ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.",
+    loadingRuns: "ಹಂಚಿಕೊಂಡ ಅಭ್ಯಾಸಗಳನ್ನು ಲೋಡ್ ಮಾಡಲಾಗುತ್ತಿದೆ…",
+    retry: "ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ",
     presentationTitle: "60 ಸೆಕೆಂಡುಗಳಲ್ಲಿ PulseCity",
     presentationIntro: "ಕಲ್ಪಿತ ಸೇವಾ ಕೇಂದ್ರಗಳು ಮತ್ತು ನೆರೆಹೊರೆಯ ಮಾಹಿತಿಯ ತರಬೇತಿ ಅನುಕರಣೆ.",
     presentationRoles: "ವಿಭಿನ್ನ ಜವಾಬ್ದಾರಿಗಳನ್ನು ಪರಿಶೀಲಿಸಲು ತಂಡದ ಪಾತ್ರ ಬದಲಿಸಿ.",
@@ -426,6 +432,9 @@ const translatedCopy: Record<Language, Partial<Record<CopyKey, string>>> = {
     replayCompare: "अभ्यास तुलना",
     noSavedRuns: "अभ्यास पूरा होने पर यहाँ सहेजा जाएगा।",
     savedRuns: "हाल के पूरे अभ्यास",
+    sharedRunsUnavailable: "साझा अभ्यास इतिहास उपलब्ध नहीं है। सर्वर कनेक्शन जाँचें और फिर प्रयास करें।",
+    loadingRuns: "साझा अभ्यास लोड हो रहे हैं…",
+    retry: "फिर प्रयास करें",
     presentationTitle: "60 सेकंड में PulseCity",
     presentationIntro: "काल्पनिक सेवा केंद्रों और पड़ोस के डेटा वाला प्रशिक्षण सिम्युलेशन।",
     presentationRoles: "अलग जिम्मेदारियों को देखने के लिए टीम की भूमिकाएँ बदलें।",
@@ -753,6 +762,21 @@ function isSavedRun(value: unknown): value is SavedRun {
   );
 }
 
+const runStoreKeys = {
+  legacyRuns: "pulsecity-completed-runs",
+  legacyMigrated: "pulsecity-runs-migrated",
+  clientInstance: "pulsecity-client-instance",
+} as const;
+
+function getClientInstanceId() {
+  let instanceId = window.localStorage.getItem(runStoreKeys.clientInstance);
+  if (!instanceId) {
+    instanceId = window.crypto.randomUUID();
+    window.localStorage.setItem(runStoreKeys.clientInstance, instanceId);
+  }
+  return instanceId;
+}
+
 const simulationRoles: {
   id: RoleId;
   name: string;
@@ -962,8 +986,11 @@ export default function Home() {
   const [presentationStep, setPresentationStep] = useState<number | null>(null);
   const [savedRuns, setSavedRuns] = useState<SavedRun[]>([]);
   const [runsLoaded, setRunsLoaded] = useState(false);
+  const [runsLoadAttempt, setRunsLoadAttempt] = useState(0);
+  const [runsError, setRunsError] = useState(false);
   const activeRunId = useRef<number | null>(null);
   const savedRunIds = useRef(new Set<number>());
+  const clientInstanceId = useRef<string | null>(null);
   const presentationDialogRef = useRef<HTMLElement | null>(null);
   const presentationTriggerRef = useRef<HTMLButtonElement | null>(null);
   const presentationWasOpen = useRef(false);
@@ -1196,58 +1223,147 @@ export default function Home() {
   );
 
   useEffect(() => {
-    const loadTimer = window.setTimeout(() => {
-      try {
-        const storedRuns = window.localStorage.getItem("pulsecity-completed-runs");
-        if (storedRuns) {
-          const parsed: unknown = JSON.parse(storedRuns);
-          if (Array.isArray(parsed)) {
-            const validRuns = parsed.filter(isSavedRun).slice(0, 10);
-            setSavedRuns(validRuns);
-            savedRunIds.current = new Set(validRuns.map((run) => run.id));
-          }
-        }
-      } catch (error) {
-        console.error("Could not load saved PulseCity runs.", error);
-      } finally {
-        setRunsLoaded(true);
-      }
-    }, 0);
-    return () => window.clearTimeout(loadTimer);
-  }, []);
+    let cancelled = false;
 
-  useEffect(() => {
-    if (!runsLoaded) return;
-    try {
-      window.localStorage.setItem("pulsecity-completed-runs", JSON.stringify(savedRuns));
-    } catch (error) {
-      console.error("Could not save PulseCity runs.", error);
+    async function loadSharedRuns() {
+      try {
+        let response = await fetch("/api/runs", { cache: "no-store" });
+        if (!response.ok) throw new Error(`Run history request failed (${response.status}).`);
+        let payload: unknown = await response.json();
+        if (
+          typeof payload !== "object" ||
+          payload === null ||
+          !("runs" in payload) ||
+          !Array.isArray(payload.runs) ||
+          !payload.runs.every(isSavedRun)
+        ) {
+          throw new Error("Run history response has an invalid shape.");
+        }
+
+        const migrationComplete =
+          window.localStorage.getItem(runStoreKeys.legacyMigrated) === "true";
+        const storedRuns = window.localStorage.getItem(runStoreKeys.legacyRuns);
+        if (!migrationComplete && storedRuns) {
+          const parsed: unknown = JSON.parse(storedRuns);
+          const legacyRuns = Array.isArray(parsed)
+            ? parsed.filter(isSavedRun).slice(0, 10)
+            : [];
+          const instanceId = getClientInstanceId();
+          clientInstanceId.current = instanceId;
+
+          for (const run of legacyRuns) {
+            const { id, ...runInput } = run;
+            response = await fetch("/api/runs", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                ...runInput,
+                clientKey: `${instanceId}:legacy:${id}`,
+              }),
+            });
+            if (!response.ok) {
+              throw new Error(`Could not migrate a saved run (${response.status}).`);
+            }
+          }
+          window.localStorage.setItem(runStoreKeys.legacyMigrated, "true");
+          window.localStorage.removeItem(runStoreKeys.legacyRuns);
+
+          response = await fetch("/api/runs", { cache: "no-store" });
+          if (!response.ok) throw new Error(`Run history request failed (${response.status}).`);
+          payload = await response.json();
+          if (
+            typeof payload !== "object" ||
+            payload === null ||
+            !("runs" in payload) ||
+            !Array.isArray(payload.runs) ||
+            !payload.runs.every(isSavedRun)
+          ) {
+            throw new Error("Run history response has an invalid shape.");
+          }
+        } else {
+          clientInstanceId.current = getClientInstanceId();
+        }
+
+        if (cancelled) return;
+        const runs = payload.runs as SavedRun[];
+        setSavedRuns(runs);
+        savedRunIds.current = new Set(runs.map((run) => run.id));
+        setRunsError(false);
+      } catch (error) {
+        console.error("Could not load shared PulseCity runs.", error);
+        if (!cancelled) setRunsError(true);
+      } finally {
+        if (!cancelled) setRunsLoaded(true);
+      }
     }
-  }, [runsLoaded, savedRuns]);
+
+    void loadSharedRuns();
+    const refreshInterval = window.setInterval(() => {
+      void loadSharedRuns();
+    }, 15_000);
+    return () => {
+      cancelled = true;
+      window.clearInterval(refreshInterval);
+    };
+  }, [runsLoadAttempt]);
 
   useEffect(() => {
     if (!finished || running || activeRunId.current === null) return;
     const runId = activeRunId.current;
     if (savedRunIds.current.has(runId)) return;
-    savedRunIds.current.add(runId);
-    setSavedRuns((current) => [
-      {
-        id: runId,
-        crisisName: crisis.name,
-        completedAt: new Date().toISOString(),
-        score: reportScore,
-        requestsResolved: resolvedRequests,
-        requestTotal: requests.length,
-        actionsTaken,
-        responseUnitsUsed:
-          crisis.resourceAllocation.responseUnits -
-          responseUnits,
-        supplyUnitsUsed: crisis.resourceAllocation.supplies - supplies,
-        sheltersOpened: openedSafeZones.length,
-        outcomes: outcomes.length,
-      },
-      ...current,
-    ].slice(0, 10));
+    const run = {
+      crisisName: crisis.name,
+      completedAt: new Date().toISOString(),
+      score: reportScore,
+      requestsResolved: resolvedRequests,
+      requestTotal: requests.length,
+      actionsTaken,
+      responseUnitsUsed:
+        crisis.resourceAllocation.responseUnits -
+        responseUnits,
+      supplyUnitsUsed: crisis.resourceAllocation.supplies - supplies,
+      sheltersOpened: openedSafeZones.length,
+      outcomes: outcomes.length,
+    };
+
+    async function persistRun() {
+      try {
+        const instanceId = clientInstanceId.current ?? getClientInstanceId();
+        clientInstanceId.current = instanceId;
+        const response = await fetch("/api/runs", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ ...run, clientKey: `${instanceId}:${runId}` }),
+        });
+        if (!response.ok) {
+          throw new Error(`Could not save completed run (${response.status}).`);
+        }
+        const payload: unknown = await response.json();
+        if (
+          typeof payload !== "object" ||
+          payload === null ||
+          !("run" in payload) ||
+          !isSavedRun(payload.run)
+        ) {
+          throw new Error("Saved run response has an invalid shape.");
+        }
+        const savedRun: SavedRun = payload.run;
+        savedRunIds.current.add(runId);
+        setSavedRuns((current) =>
+          [savedRun, ...current.filter((existingRun) => existingRun.id !== savedRun.id)]
+            .sort((left, right) =>
+              right.completedAt.localeCompare(left.completedAt) || right.id - left.id
+            )
+            .slice(0, 10)
+        );
+        setRunsError(false);
+      } catch (error) {
+        console.error("Could not save completed PulseCity run.", error);
+        setRunsError(true);
+      }
+    }
+
+    void persistRun();
   }, [
     finished,
     running,
@@ -1260,6 +1376,7 @@ export default function Home() {
     supplies,
     openedSafeZones.length,
     outcomes.length,
+    runsLoadAttempt,
   ]);
 
   useEffect(() => {
@@ -2124,7 +2241,9 @@ export default function Home() {
               <span className="pulse-event-count">{savedRuns.length}/10</span>
             </div>
             {savedRuns.length === 0 ? (
-              <p className="pulse-comparison-empty">{t("noSavedRuns")}</p>
+              <div className="pulse-comparison-empty" aria-live="polite">
+                <p>{runsError ? t("sharedRunsUnavailable") : runsLoaded ? t("noSavedRuns") : t("loadingRuns")}</p>
+              </div>
             ) : (
               <ol className="pulse-run-list">
                 {savedRuns.slice(0, 2).map((run) => (
@@ -2152,6 +2271,21 @@ export default function Home() {
                 {(savedRuns[0].requestsResolved / Math.max(savedRuns[0].requestTotal, 1) * 100).toFixed(0)}% vs{" "}
                 {(savedRuns[1].requestsResolved / Math.max(savedRuns[1].requestTotal, 1) * 100).toFixed(0)}%
               </p>
+            )}
+            {runsError && savedRuns.length > 0 && (
+              <p className="pulse-disclaimer mt-3" role="alert">{t("sharedRunsUnavailable")}</p>
+            )}
+            {runsError && (
+              <button
+                type="button"
+                className="pulse-secondary-button mt-3"
+                onClick={() => {
+                  setRunsLoaded(false);
+                  setRunsLoadAttempt((attempt) => attempt + 1);
+                }}
+              >
+                {t("retry")}
+              </button>
             )}
             <p className="pulse-disclaimer mt-3">{t("generateReport")}</p>
           </section>

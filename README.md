@@ -1,36 +1,44 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# PulseCity
 
-## Getting Started
+PulseCity is a crisis-response training simulator. Its city areas, service points, requests, routes, and outcomes are fictional demonstration data and are not operational emergency guidance.
 
-First, run the development server:
+## Requirements
 
-```bash
+- Node.js 22.13 or later
+- npm
+
+## Run locally
+
+```powershell
+npm ci
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Completed exercise summaries are stored in a local SQLite database and shared by everyone using the same running server. The default database location is `data/pulsecity.sqlite`. To store it elsewhere, set `PULSECITY_DB_PATH` to an absolute file path before starting the server.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+For a team demo on the same trusted network, run:
 
-## Learn More
+```powershell
+npm run dev -- --hostname 0.0.0.0
+```
 
-To learn more about Next.js, take a look at the following resources:
+Share the host computer's local IP address and port `3000` with teammates. They must be able to reach that computer through the network firewall. All connected browsers will use the same run history and database.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## API
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- `GET /api/runs` returns the ten most recent completed runs.
+- `POST /api/runs` validates and stores a completed run. A client-generated idempotency key prevents duplicate submissions.
+- Open pages refresh shared run history every 15 seconds.
 
-## Deploy on Vercel
+The anonymous API is intended for a trusted demo network. Anyone able to reach the app can submit run summaries; do not expose it to the public internet until authentication and abuse protection are added.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The SQLite file must be kept on persistent storage. Serverless deployments with an ephemeral filesystem will not reliably preserve data. A deployment with multiple app instances also requires a shared database service instead of a local SQLite file.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Checks
+
+```powershell
+npm run lint
+npm run build
+```
