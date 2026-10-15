@@ -9,7 +9,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test": "node --experimental-strip-types --test",
+    "backup:demo": "node scripts/demo-data.mjs backup",
+    "reset:demo": "node scripts/demo-data.mjs reset"
   },
   "dependencies": {
     "maplibre-gl": "^6.13.0",

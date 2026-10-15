@@ -1,7 +1,7 @@
 "use client";
 
 import CityMapLoader from "@/components/CityMapLoader";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { type FormEvent, useCallback, useEffect, useRef, useState } from "react";
 
 type CrisisId =
   | "flood"
@@ -107,6 +107,8 @@ const englishCopy = {
   mapOverview: "SIMULATED OVERVIEW",
   cityMap: "City command map",
   selectArea: "scenario · select a highlighted area to inspect",
+  areaPicker: "Choose an area",
+  currentSelection: "Selected area",
   demonstrationData: "DEMONSTRATION DATA",
   actionTypes: "action types",
   simulatedAreas: "simulated areas",
@@ -114,6 +116,7 @@ const englishCopy = {
   layers: "Map layers",
   riskAreas: "Simulated risk areas",
   servicePoints: "Simulated service points",
+  geographicBasemap: "Show geographic basemap (OpenStreetMap, Bengaluru)",
   routePlanner: "Simulated route planner",
   fromArea: "From area",
   toArea: "To area",
@@ -138,6 +141,15 @@ const englishCopy = {
   sharedRunsUnavailable: "Shared run history is unavailable. Check the server connection and retry.",
   loadingRuns: "Loading shared runs…",
   retry: "Retry",
+  teamAccess: "Team access",
+  teamPassword: "Shared team password",
+  teamPasswordPlaceholder: "Enter the team password",
+  teamSignIn: "Sign in to save runs",
+  teamSignOut: "Sign out",
+  teamSignInRequired: "Sign in to save completed runs to the shared history.",
+  teamPasswordUnconfigured: "Team access is not configured on the server.",
+  teamSignInFailed: "Sign-in failed. Check the password and try again.",
+  teamSessionChecking: "Checking team access…",
   presentationTitle: "PulseCity in 60 seconds",
   presentationIntro: "This is a training simulation with fictional service points and neighborhood data.",
   presentationRoles: "Switch team perspectives to review different responsibilities and hand off actions.",
@@ -202,7 +214,7 @@ const englishCopy = {
   pending: "pending",
   medical: "Medical",
   shelter: "Shelter",
-  mapAttribution: "Map data © OpenStreetMap contributors · Central Bengaluru basemap; highlighted neighborhoods, facilities, routes, and conditions are simulated and not verified.",
+  mapAttribution: "Fictional command map by default. Optional OpenStreetMap basemap shows central Bengaluru for geographic context only; all highlighted areas, facilities, routes, and scenario conditions are simulated, not verified.",
   illustrativeValues: "Illustrative demo values · not operational guidance",
   responseBriefDescription: "Review the highest-priority request and area exposure before committing resources.",
   trainingAidDisclaimer: "Rule-based training aid only. Not for real emergency use.",
@@ -258,12 +270,15 @@ const translatedCopy: Record<Language, Partial<Record<CopyKey, string>>> = {
     cityMap: "ನಗರ ನಿಯಂತ್ರಣ ನಕ್ಷೆ",
     demonstrationData: "ಪ್ರಾತ್ಯಕ್ಷಿಕೆ ಮಾಹಿತಿ",
     selectArea: "ಸನ್ನಿವೇಶ · ಪರಿಶೀಲಿಸಲು ಹೈಲೈಟ್ ಮಾಡಿದ ಪ್ರದೇಶ ಆಯ್ಕೆಮಾಡಿ",
+    areaPicker: "ಪ್ರದೇಶ ಆಯ್ಕೆಮಾಡಿ",
+    currentSelection: "ಆಯ್ದ ಪ್ರದೇಶ",
     actionTypes: "ಕಾರ್ಯ ಪ್ರಕಾರಗಳು",
     simulatedAreas: "ಅನುಕರಿಸಿದ ಪ್ರದೇಶಗಳು",
     impactPercent: "% ಪರಿಣಾಮ",
     layers: "ನಕ್ಷೆಯ ಪದರಗಳು",
     riskAreas: "ಅನುಕರಿಸಿದ ಅಪಾಯ ಪ್ರದೇಶಗಳು",
     servicePoints: "ಅನುಕರಿಸಿದ ಸೇವಾ ಕೇಂದ್ರಗಳು",
+    geographicBasemap: "ಭೌಗೋಳಿಕ ಆಧಾರ ನಕ್ಷೆ ತೋರಿಸಿ (OpenStreetMap, ಬೆಂಗಳೂರು)",
     routePlanner: "ಅನುಕರಿಸಿದ ಮಾರ್ಗ ಯೋಜನೆ",
     fromArea: "ಪ್ರಾರಂಭ ಸ್ಥಳ",
     toArea: "ಗಮ್ಯ ಸ್ಥಳ",
@@ -288,6 +303,15 @@ const translatedCopy: Record<Language, Partial<Record<CopyKey, string>>> = {
     sharedRunsUnavailable: "ಹಂಚಿಕೊಂಡ ಅಭ್ಯಾಸ ಇತಿಹಾಸ ಲಭ್ಯವಿಲ್ಲ. ಸರ್ವರ್ ಸಂಪರ್ಕ ಪರಿಶೀಲಿಸಿ ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.",
     loadingRuns: "ಹಂಚಿಕೊಂಡ ಅಭ್ಯಾಸಗಳನ್ನು ಲೋಡ್ ಮಾಡಲಾಗುತ್ತಿದೆ…",
     retry: "ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ",
+    teamAccess: "ತಂಡದ ಪ್ರವೇಶ",
+    teamPassword: "ಹಂಚಿಕೊಂಡ ತಂಡದ ಪಾಸ್‌ವರ್ಡ್",
+    teamPasswordPlaceholder: "ತಂಡದ ಪಾಸ್‌ವರ್ಡ್ ನಮೂದಿಸಿ",
+    teamSignIn: "ಅಭ್ಯಾಸ ಉಳಿಸಲು ಸೈನ್ ಇನ್ ಮಾಡಿ",
+    teamSignOut: "ಸೈನ್ ಔಟ್",
+    teamSignInRequired: "ಹಂಚಿಕೊಂಡ ಇತಿಹಾಸದಲ್ಲಿ ಪೂರ್ಣಗೊಂಡ ಅಭ್ಯಾಸಗಳನ್ನು ಉಳಿಸಲು ಸೈನ್ ಇನ್ ಮಾಡಿ.",
+    teamPasswordUnconfigured: "ಸರ್ವರ್‌ನಲ್ಲಿ ತಂಡದ ಪ್ರವೇಶ ಹೊಂದಿಸಲಾಗಿಲ್ಲ.",
+    teamSignInFailed: "ಸೈನ್ ಇನ್ ವಿಫಲವಾಗಿದೆ. ಪಾಸ್‌ವರ್ಡ್ ಪರಿಶೀಲಿಸಿ ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.",
+    teamSessionChecking: "ತಂಡದ ಪ್ರವೇಶ ಪರಿಶೀಲಿಸಲಾಗುತ್ತಿದೆ…",
     presentationTitle: "60 ಸೆಕೆಂಡುಗಳಲ್ಲಿ PulseCity",
     presentationIntro: "ಕಲ್ಪಿತ ಸೇವಾ ಕೇಂದ್ರಗಳು ಮತ್ತು ನೆರೆಹೊರೆಯ ಮಾಹಿತಿಯ ತರಬೇತಿ ಅನುಕರಣೆ.",
     presentationRoles: "ವಿಭಿನ್ನ ಜವಾಬ್ದಾರಿಗಳನ್ನು ಪರಿಶೀಲಿಸಲು ತಂಡದ ಪಾತ್ರ ಬದಲಿಸಿ.",
@@ -352,7 +376,7 @@ const translatedCopy: Record<Language, Partial<Record<CopyKey, string>>> = {
     pending: "ಬಾಕಿ",
     medical: "ವೈದ್ಯಕೀಯ",
     shelter: "ಆಶ್ರಯ",
-    mapAttribution: "ನಕ್ಷೆ ಮಾಹಿತಿ © OpenStreetMap ಕೊಡುಗೆದಾರರು · ಮಧ್ಯ ಬೆಂಗಳೂರು ನಕ್ಷೆ; ಪ್ರದೇಶಗಳು, ಕೇಂದ್ರಗಳು, ಮಾರ್ಗಗಳು ಮತ್ತು ಪರಿಸ್ಥಿತಿಗಳು ಅನುಕರಿತವಾಗಿವೆ, ಪರಿಶೀಲಿತವಲ್ಲ.",
+    mapAttribution: "ಪೂರ್ವನಿಯೋಜಿತವಾಗಿ ಕಲ್ಪಿತ ಕಮಾಂಡ್ ನಕ್ಷೆ. ಐಚ್ಛಿಕ OpenStreetMap ನಕ್ಷೆ ಭೌಗೋಳಿಕ ಸಂದರ್ಭಕ್ಕಾಗಿ ಮಧ್ಯ ಬೆಂಗಳೂರನ್ನು ತೋರಿಸುತ್ತದೆ; ಗುರುತಿಸಿದ ಪ್ರದೇಶಗಳು, ಕೇಂದ್ರಗಳು, ಮಾರ್ಗಗಳು ಮತ್ತು ಪರಿಸ್ಥಿತಿಗಳು ಅನುಕರಿತವಾಗಿವೆ, ಪರಿಶೀಲಿತವಲ್ಲ.",
     illustrativeValues: "ಉದಾಹರಣೆಯ ಮೌಲ್ಯಗಳು · ಕಾರ್ಯಾಚರಣೆಯ ಮಾರ್ಗದರ್ಶನವಲ್ಲ",
     responseBriefDescription: "ಸಂಪನ್ಮೂಲಗಳನ್ನು ಬಳಸುವ ಮೊದಲು ಅತ್ಯಂತ ಆದ್ಯತೆಯ ವಿನಂತಿ ಮತ್ತು ಪ್ರದೇಶದ ಪರಿಣಾಮ ಪರಿಶೀಲಿಸಿ.",
     trainingAidDisclaimer: "ನಿಯಮಾಧಾರಿತ ತರಬೇತಿ ಸಾಧನ ಮಾತ್ರ. ನೈಜ ತುರ್ತು ಪರಿಸ್ಥಿತಿಗೆ ಬಳಸಬೇಡಿ.",
@@ -405,12 +429,15 @@ const translatedCopy: Record<Language, Partial<Record<CopyKey, string>>> = {
     cityMap: "शहर नियंत्रण मानचित्र",
     demonstrationData: "प्रदर्शन डेटा",
     selectArea: "परिदृश्य · देखने के लिए चिह्नित क्षेत्र चुनें",
+    areaPicker: "क्षेत्र चुनें",
+    currentSelection: "चुना गया क्षेत्र",
     actionTypes: "कार्रवाई प्रकार",
     simulatedAreas: "सिम्युलेटेड क्षेत्र",
     impactPercent: "% प्रभाव",
     layers: "मानचित्र परतें",
     riskAreas: "सिम्युलेटेड जोखिम क्षेत्र",
     servicePoints: "सिम्युलेटेड सेवा केंद्र",
+    geographicBasemap: "भौगोलिक आधार मानचित्र दिखाएँ (OpenStreetMap, बेंगलुरु)",
     routePlanner: "सिम्युलेटेड मार्ग योजना",
     fromArea: "शुरुआती क्षेत्र",
     toArea: "गंतव्य क्षेत्र",
@@ -435,6 +462,15 @@ const translatedCopy: Record<Language, Partial<Record<CopyKey, string>>> = {
     sharedRunsUnavailable: "साझा अभ्यास इतिहास उपलब्ध नहीं है। सर्वर कनेक्शन जाँचें और फिर प्रयास करें।",
     loadingRuns: "साझा अभ्यास लोड हो रहे हैं…",
     retry: "फिर प्रयास करें",
+    teamAccess: "टीम एक्सेस",
+    teamPassword: "साझा टीम पासवर्ड",
+    teamPasswordPlaceholder: "टीम पासवर्ड दर्ज करें",
+    teamSignIn: "रन सहेजने के लिए साइन इन करें",
+    teamSignOut: "साइन आउट",
+    teamSignInRequired: "पूरे हुए रन साझा इतिहास में सहेजने के लिए साइन इन करें।",
+    teamPasswordUnconfigured: "सर्वर पर टीम एक्सेस कॉन्फ़िगर नहीं है।",
+    teamSignInFailed: "साइन इन विफल हुआ। पासवर्ड जाँचकर फिर प्रयास करें।",
+    teamSessionChecking: "टीम एक्सेस जाँचा जा रहा है…",
     presentationTitle: "60 सेकंड में PulseCity",
     presentationIntro: "काल्पनिक सेवा केंद्रों और पड़ोस के डेटा वाला प्रशिक्षण सिम्युलेशन।",
     presentationRoles: "अलग जिम्मेदारियों को देखने के लिए टीम की भूमिकाएँ बदलें।",
@@ -499,7 +535,7 @@ const translatedCopy: Record<Language, Partial<Record<CopyKey, string>>> = {
     pending: "लंबित",
     medical: "चिकित्सा",
     shelter: "आश्रय",
-    mapAttribution: "मानचित्र डेटा © OpenStreetMap योगदानकर्ता · मध्य बेंगलुरु का आधार मानचित्र; क्षेत्र, केंद्र, मार्ग और स्थितियाँ सिम्युलेटेड हैं, सत्यापित नहीं।",
+    mapAttribution: "डिफ़ॉल्ट रूप से काल्पनिक कमांड मानचित्र। वैकल्पिक OpenStreetMap आधार मानचित्र केवल भौगोलिक संदर्भ के लिए मध्य बेंगलुरु दिखाता है; चिह्नित क्षेत्र, केंद्र, मार्ग और स्थितियाँ सिम्युलेटेड हैं, सत्यापित नहीं।",
     illustrativeValues: "उदाहरण मान · संचालन संबंधी मार्गदर्शन नहीं",
     responseBriefDescription: "संसाधन देने से पहले सर्वोच्च प्राथमिकता वाले अनुरोध और क्षेत्र के प्रभाव की समीक्षा करें।",
     trainingAidDisclaimer: "केवल नियम-आधारित प्रशिक्षण साधन। वास्तविक आपातकाल में उपयोग न करें।",
@@ -980,6 +1016,7 @@ export default function Home() {
   const [language, setLanguage] = useState<Language>("en");
   const [showRiskAreas, setShowRiskAreas] = useState(true);
   const [showServicePoints, setShowServicePoints] = useState(true);
+  const [showGeographicBasemap, setShowGeographicBasemap] = useState(false);
   const [routeFromZoneId, setRouteFromZoneId] = useState("ward-3");
   const [routeToZoneId, setRouteToZoneId] = useState("ward-4");
   const [routeVisible, setRouteVisible] = useState(false);
@@ -988,6 +1025,11 @@ export default function Home() {
   const [runsLoaded, setRunsLoaded] = useState(false);
   const [runsLoadAttempt, setRunsLoadAttempt] = useState(0);
   const [runsError, setRunsError] = useState(false);
+  const [teamAccess, setTeamAccess] = useState<
+    "checking" | "signed-out" | "signed-in" | "unconfigured"
+  >("checking");
+  const [teamPassword, setTeamPassword] = useState("");
+  const [teamAccessError, setTeamAccessError] = useState("");
   const activeRunId = useRef<number | null>(null);
   const savedRunIds = useRef(new Set<number>());
   const clientInstanceId = useRef<string | null>(null);
@@ -1222,6 +1264,96 @@ export default function Home() {
       efficiencyScore * 0.1
   );
 
+  const sharedRunsUnavailable = translatedCopy[language].sharedRunsUnavailable ??
+    englishCopy.sharedRunsUnavailable;
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function loadTeamSession() {
+      try {
+        const response = await fetch("/api/team-session", { cache: "no-store" });
+        if (!response.ok) throw new Error(`Team session request failed (${response.status}).`);
+        const payload: unknown = await response.json();
+        if (
+          typeof payload !== "object" ||
+          payload === null ||
+          !("configured" in payload) ||
+          typeof payload.configured !== "boolean" ||
+          !("authenticated" in payload) ||
+          typeof payload.authenticated !== "boolean"
+        ) {
+          throw new Error("Team session response has an invalid shape.");
+        }
+        if (!cancelled) {
+          setTeamAccess(
+            !payload.configured
+              ? "unconfigured"
+              : payload.authenticated
+                ? "signed-in"
+                : "signed-out"
+          );
+        }
+      } catch (error) {
+        console.error("Could not check PulseCity team access.", error);
+        if (!cancelled) {
+          setTeamAccess("signed-out");
+          setTeamAccessError(sharedRunsUnavailable);
+        }
+      }
+    }
+
+    void loadTeamSession();
+    return () => {
+      cancelled = true;
+    };
+  }, [language, sharedRunsUnavailable]);
+
+  async function signInToTeam(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setTeamAccessError("");
+
+    try {
+      const response = await fetch("/api/team-session", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password: teamPassword }),
+      });
+
+      if (response.status === 503) {
+        setTeamAccess("unconfigured");
+        setTeamAccessError(t("teamPasswordUnconfigured"));
+        return;
+      }
+      if (!response.ok) {
+        setTeamAccessError(
+          response.status === 429 ? t("sharedRunsUnavailable") : t("teamSignInFailed")
+        );
+        return;
+      }
+
+      setTeamPassword("");
+      setTeamAccess("signed-in");
+      setRunsError(false);
+      setRunsLoadAttempt((attempt) => attempt + 1);
+    } catch (error) {
+      console.error("Could not sign in to PulseCity team access.", error);
+      setTeamAccessError(t("sharedRunsUnavailable"));
+    }
+  }
+
+  async function signOutOfTeam() {
+    setTeamAccessError("");
+    try {
+      const response = await fetch("/api/team-session", { method: "DELETE" });
+      if (!response.ok) throw new Error(`Team sign-out failed (${response.status}).`);
+      setTeamAccess("signed-out");
+    } catch (error) {
+      console.error("Could not sign out of PulseCity team access.", error);
+      setTeamAccessError(t("sharedRunsUnavailable"));
+    }
+  }
+
   useEffect(() => {
     let cancelled = false;
 
@@ -1335,6 +1467,9 @@ export default function Home() {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ ...run, clientKey: `${instanceId}:${runId}` }),
         });
+        if (response.status === 401) {
+          setTeamAccess("signed-out");
+        }
         if (!response.ok) {
           throw new Error(`Could not save completed run (${response.status}).`);
         }
@@ -1761,13 +1896,13 @@ export default function Home() {
     if (mostUrgent) {
       const requestZone = zones.find((zone) => zone.id === mostUrgent.zoneId);
       addEvent(
-        `Prototype assistant: Review "${mostUrgent.title}" in ${requestZone?.name ?? "the city"} first (urgency ${mostUrgent.urgency}/100). Also monitor ${highestRisk.name}, currently the highest-risk area (${highestRisk.risk}/100).`
+        `Rule-based brief: Review "${mostUrgent.title}" in ${requestZone?.name ?? "the city"} first (urgency ${mostUrgent.urgency}/100). Also monitor ${highestRisk.name}, currently the highest-risk area (${highestRisk.risk}/100).`
       );
       return;
     }
 
     addEvent(
-      `Prototype assistant: No requests are pending. Monitor ${highestRisk.name}, currently the highest-risk area (${highestRisk.risk}/100).`
+      `Rule-based brief: No requests are pending. Monitor ${highestRisk.name}, currently the highest-risk area (${highestRisk.risk}/100).`
     );
   }
 
@@ -1906,9 +2041,32 @@ export default function Home() {
               language={language}
               showRiskAreas={showRiskAreas}
               showServicePoints={showServicePoints}
+              showGeographicBasemap={showGeographicBasemap}
               routeFromZoneId={routeVisible ? routeFromZoneId : ""}
               routeToZoneId={routeVisible ? routeToZoneId : ""}
             />
+
+            <section className="pulse-zone-picker" aria-labelledby="area-picker-heading">
+              <div className="pulse-zone-picker-heading">
+                <h3 id="area-picker-heading">{t("areaPicker")}</h3>
+                <p>{t("currentSelection")}: {localize(selectedZone.name)}</p>
+              </div>
+              <ul className="pulse-zone-picker-list">
+                {zones.map((zone) => (
+                  <li key={zone.id}>
+                    <button
+                      type="button"
+                      className={`pulse-zone-picker-option ${zone.id === selectedZoneId ? "is-selected" : ""}`}
+                      onClick={() => setSelectedZoneId(zone.id)}
+                      aria-pressed={zone.id === selectedZoneId}
+                    >
+                      <span>{localize(zone.name)}</span>
+                      <small>{t(riskLabel(zone.risk))} · {zone.risk}/100</small>
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </section>
 
             <div className="pulse-map-tools" aria-label={t("layers")}>
               <p className="pulse-section-kicker">{t("layers")}</p>
@@ -1927,6 +2085,14 @@ export default function Home() {
                   onChange={(event) => setShowServicePoints(event.target.checked)}
                 />
                 {t("servicePoints")}
+              </label>
+              <label>
+                <input
+                  type="checkbox"
+                  checked={showGeographicBasemap}
+                  onChange={(event) => setShowGeographicBasemap(event.target.checked)}
+                />
+                {t("geographicBasemap")}
               </label>
             </div>
             <form
@@ -2239,6 +2405,53 @@ export default function Home() {
                 <h2 id="comparison-heading" className="pulse-card-title">{t("savedRuns")}</h2>
               </div>
               <span className="pulse-event-count">{savedRuns.length}/10</span>
+            </div>
+            <div className="pulse-team-access">
+              <div className="pulse-team-access-heading">
+                <span className="pulse-section-kicker">{t("teamAccess")}</span>
+                {teamAccess === "signed-in" && (
+                  <button
+                    type="button"
+                    className="pulse-team-signout"
+                    onClick={() => void signOutOfTeam()}
+                  >
+                    {t("teamSignOut")}
+                  </button>
+                )}
+              </div>
+              {teamAccess === "checking" && (
+                <p className="pulse-team-access-note">{t("teamSessionChecking")}</p>
+              )}
+              {teamAccess === "signed-in" && (
+                <p className="pulse-team-access-note">{t("teamSignInRequired")}</p>
+              )}
+              {(teamAccess === "signed-out" || teamAccess === "unconfigured") && (
+                <>
+                  {teamAccess === "signed-out" ? (
+                    <form className="pulse-team-login" onSubmit={(event) => void signInToTeam(event)}>
+                      <label htmlFor="pulse-team-password">{t("teamPassword")}</label>
+                      <input
+                        id="pulse-team-password"
+                        type="password"
+                        autoComplete="current-password"
+                        value={teamPassword}
+                        onChange={(event) => setTeamPassword(event.target.value)}
+                        placeholder={t("teamPasswordPlaceholder")}
+                        required
+                      />
+                      <button type="submit" disabled={!teamPassword}>
+                        {t("teamSignIn")}
+                      </button>
+                    </form>
+                  ) : (
+                    <p className="pulse-team-access-note">{t("teamPasswordUnconfigured")}</p>
+                  )}
+                  {teamAccess === "signed-out" && (
+                    <p className="pulse-team-access-note">{t("teamSignInRequired")}</p>
+                  )}
+                </>
+              )}
+              {teamAccessError && <p className="pulse-team-access-error" role="alert">{teamAccessError}</p>}
             </div>
             {savedRuns.length === 0 ? (
               <div className="pulse-comparison-empty" aria-live="polite">

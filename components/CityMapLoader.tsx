@@ -5,7 +5,7 @@ import dynamic from "next/dynamic";
 const CityMap = dynamic(() => import("./CityMap"), {
   ssr: false,
   loading: () => (
-    <div className="grid h-[460px] place-items-center rounded-b-2xl bg-slate-900 text-sm text-slate-400 sm:h-[560px]">
+    <div className="grid h-[360px] place-items-center rounded-b-2xl bg-slate-900 text-sm text-slate-400 sm:h-[560px]">
       Loading interactive city map…
     </div>
   ),
@@ -20,6 +20,7 @@ type Props = {
   language: "en" | "kn" | "hi";
   showRiskAreas: boolean;
   showServicePoints: boolean;
+  showGeographicBasemap: boolean;
   routeFromZoneId: string;
   routeToZoneId: string;
 };

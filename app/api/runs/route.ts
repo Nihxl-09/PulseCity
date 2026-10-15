@@ -4,6 +4,12 @@ import {
   listSavedRuns,
   saveRun,
 } from "@/lib/saved-runs";
+import {
+  isSameOriginRequest,
+  isTeamPasswordConfigured,
+  isValidTeamSessionToken,
+  teamSessionCookieName,
+} from "@/lib/team-auth";
 
 export async function GET() {
   try {
@@ -19,6 +25,21 @@ export async function GET() {
 }
 
 export async function POST(request: NextRequest) {
+  if (!isSameOriginRequest(request)) {
+    return NextResponse.json({ error: "Request origin is not allowed." }, { status: 403 });
+  }
+
+  if (!isTeamPasswordConfigured()) {
+    return NextResponse.json(
+      { error: "Team access is not configured. Set PULSECITY_TEAM_PASSWORD to at least 16 characters." },
+      { status: 503 }
+    );
+  }
+
+  if (!isValidTeamSessionToken(request.cookies.get(teamSessionCookieName)?.value)) {
+    return NextResponse.json({ error: "Team sign-in is required." }, { status: 401 });
+  }
+
   const contentLength = Number(request.headers.get("content-length") ?? 0);
   if (contentLength > 8_192) {
     return NextResponse.json({ error: "Request body is too large." }, { status: 413 });
