@@ -5,24 +5,14 @@ import dynamic from "next/dynamic";
 const CityMap = dynamic(() => import("./CityMap"), {
   ssr: false,
   loading: () => (
-    <div className="grid h-[360px] place-items-center rounded-b-2xl bg-slate-900 text-sm text-slate-400 sm:h-[560px]">
+    <div className="mx-auto grid aspect-square w-full max-w-[640px] place-items-center rounded-b-2xl bg-slate-900 text-sm text-slate-400">
       Loading interactive city map…
     </div>
   ),
 });
 
 type Props = {
-  selectedZoneId: string;
-  impact: number;
-  crisisName: string;
-  crisisColor: string;
-  onSelectZone: (zoneId: string) => void;
   language: "en" | "kn" | "hi";
-  showRiskAreas: boolean;
-  showServicePoints: boolean;
-  showGeographicBasemap: boolean;
-  routeFromZoneId: string;
-  routeToZoneId: string;
 };
 
 export default function CityMapLoader(props: Props) {

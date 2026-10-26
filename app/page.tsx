@@ -104,25 +104,11 @@ const englishCopy = {
   fieldOperations: "Field operations",
   resourceCoordination: "Resource coordination",
   publicInformation: "Public information",
-  mapOverview: "SIMULATED OVERVIEW",
-  cityMap: "City command map",
-  selectArea: "scenario · select a highlighted area to inspect",
-  areaPicker: "Choose an area",
-  currentSelection: "Selected area",
-  demonstrationData: "DEMONSTRATION DATA",
+  mapOverview: "MANGALURU · OPENSTREETMAP",
+  cityMap: "City map",
   actionTypes: "action types",
   simulatedAreas: "simulated areas",
   impactPercent: "% impact",
-  layers: "Map layers",
-  riskAreas: "Simulated risk areas",
-  servicePoints: "Simulated service points",
-  geographicBasemap: "Show geographic basemap (OpenStreetMap, Bengaluru)",
-  routePlanner: "Simulated route planner",
-  fromArea: "From area",
-  toArea: "To area",
-  showRoute: "Show route",
-  clearRoute: "Clear route",
-  straightLine: "Illustrative straight-line route only—not road routing or safety guidance.",
   loadout: "SCENARIO LOADOUT",
   resourceAllocation: "Simulated resource allocation",
   incoming: "INCOMING",
@@ -151,9 +137,9 @@ const englishCopy = {
   teamSignInFailed: "Sign-in failed. Check the password and try again.",
   teamSessionChecking: "Checking team access…",
   presentationTitle: "PulseCity in 60 seconds",
-  presentationIntro: "This is a training simulation with fictional service points and neighborhood data.",
+  presentationIntro: "This is a training simulation with fictional neighborhood and request data.",
   presentationRoles: "Switch team perspectives to review different responsibilities and hand off actions.",
-  presentationMap: "Inspect simulated risk areas, service points, and illustrative routes on the map.",
+  presentationMap: "Inspect simulated risk areas and illustrative routes on the map.",
   presentationActions: "Start an exercise, resolve simulated requests, and observe how decisions change the scenario.",
   presentationReport: "Compare completed runs to discuss trade-offs. Scores are prototype indicators, not forecasts.",
   back: "Back",
@@ -214,7 +200,7 @@ const englishCopy = {
   pending: "pending",
   medical: "Medical",
   shelter: "Shelter",
-  mapAttribution: "Fictional command map by default. Optional OpenStreetMap basemap shows central Bengaluru for geographic context only; all highlighted areas, facilities, routes, and scenario conditions are simulated, not verified.",
+  mapAttribution: "© OpenStreetMap contributors. Map view is limited to an approximate Mangaluru urban extent, not an official municipal boundary. Live tiles require an internet connection.",
   illustrativeValues: "Illustrative demo values · not operational guidance",
   responseBriefDescription: "Review the highest-priority request and area exposure before committing resources.",
   trainingAidDisclaimer: "Rule-based training aid only. Not for real emergency use.",
@@ -266,25 +252,11 @@ const translatedCopy: Record<Language, Partial<Record<CopyKey, string>>> = {
     fieldOperations: "ಕ್ಷೇತ್ರ ಕಾರ್ಯಾಚರಣೆ",
     resourceCoordination: "ಸಂಪನ್ಮೂಲ ಸಮನ್ವಯ",
     publicInformation: "ಸಾರ್ವಜನಿಕ ಮಾಹಿತಿ",
-    mapOverview: "ಅನುಕರಿಸಿದ ನೋಟ",
-    cityMap: "ನಗರ ನಿಯಂತ್ರಣ ನಕ್ಷೆ",
-    demonstrationData: "ಪ್ರಾತ್ಯಕ್ಷಿಕೆ ಮಾಹಿತಿ",
-    selectArea: "ಸನ್ನಿವೇಶ · ಪರಿಶೀಲಿಸಲು ಹೈಲೈಟ್ ಮಾಡಿದ ಪ್ರದೇಶ ಆಯ್ಕೆಮಾಡಿ",
-    areaPicker: "ಪ್ರದೇಶ ಆಯ್ಕೆಮಾಡಿ",
-    currentSelection: "ಆಯ್ದ ಪ್ರದೇಶ",
+    mapOverview: "ಮಂಗಳೂರು · OPENSTREETMAP",
+    cityMap: "ನಗರದ ನಕ್ಷೆ",
     actionTypes: "ಕಾರ್ಯ ಪ್ರಕಾರಗಳು",
     simulatedAreas: "ಅನುಕರಿಸಿದ ಪ್ರದೇಶಗಳು",
     impactPercent: "% ಪರಿಣಾಮ",
-    layers: "ನಕ್ಷೆಯ ಪದರಗಳು",
-    riskAreas: "ಅನುಕರಿಸಿದ ಅಪಾಯ ಪ್ರದೇಶಗಳು",
-    servicePoints: "ಅನುಕರಿಸಿದ ಸೇವಾ ಕೇಂದ್ರಗಳು",
-    geographicBasemap: "ಭೌಗೋಳಿಕ ಆಧಾರ ನಕ್ಷೆ ತೋರಿಸಿ (OpenStreetMap, ಬೆಂಗಳೂರು)",
-    routePlanner: "ಅನುಕರಿಸಿದ ಮಾರ್ಗ ಯೋಜನೆ",
-    fromArea: "ಪ್ರಾರಂಭ ಸ್ಥಳ",
-    toArea: "ಗಮ್ಯ ಸ್ಥಳ",
-    showRoute: "ಮಾರ್ಗ ತೋರಿಸಿ",
-    clearRoute: "ಮಾರ್ಗ ಅಳಿಸಿ",
-    straightLine: "ಉದಾಹರಣೆಯ ನೇರ ಮಾರ್ಗ ಮಾತ್ರ—ರಸ್ತೆ ಮಾರ್ಗ ಅಥವಾ ಸುರಕ್ಷತಾ ಸಲಹೆಯಲ್ಲ.",
     loadout: "ಸನ್ನಿವೇಶ ಸಂಪನ್ಮೂಲಗಳು",
     resourceAllocation: "ಅನುಕರಿಸಿದ ಸಂಪನ್ಮೂಲ ಹಂಚಿಕೆ",
     incoming: "ಬರುತ್ತಿರುವವು",
@@ -376,7 +348,7 @@ const translatedCopy: Record<Language, Partial<Record<CopyKey, string>>> = {
     pending: "ಬಾಕಿ",
     medical: "ವೈದ್ಯಕೀಯ",
     shelter: "ಆಶ್ರಯ",
-    mapAttribution: "ಪೂರ್ವನಿಯೋಜಿತವಾಗಿ ಕಲ್ಪಿತ ಕಮಾಂಡ್ ನಕ್ಷೆ. ಐಚ್ಛಿಕ OpenStreetMap ನಕ್ಷೆ ಭೌಗೋಳಿಕ ಸಂದರ್ಭಕ್ಕಾಗಿ ಮಧ್ಯ ಬೆಂಗಳೂರನ್ನು ತೋರಿಸುತ್ತದೆ; ಗುರುತಿಸಿದ ಪ್ರದೇಶಗಳು, ಕೇಂದ್ರಗಳು, ಮಾರ್ಗಗಳು ಮತ್ತು ಪರಿಸ್ಥಿತಿಗಳು ಅನುಕರಿತವಾಗಿವೆ, ಪರಿಶೀಲಿತವಲ್ಲ.",
+    mapAttribution: "© OpenStreetMap ಕೊಡುಗೆದಾರರು. ನಕ್ಷೆಯು ಮಂಗಳೂರಿನ ಅಂದಾಜು ನಗರ ವ್ಯಾಪ್ತಿಗೆ ಸೀಮಿತವಾಗಿದೆ; ಇದು ಅಧಿಕೃತ ನಗರಪಾಲಿಕೆ ಗಡಿಯಲ್ಲ. ಲೈವ್ ಟೈಲ್‌ಗಳಿಗೆ ಇಂಟರ್ನೆಟ್ ಅಗತ್ಯ.",
     illustrativeValues: "ಉದಾಹರಣೆಯ ಮೌಲ್ಯಗಳು · ಕಾರ್ಯಾಚರಣೆಯ ಮಾರ್ಗದರ್ಶನವಲ್ಲ",
     responseBriefDescription: "ಸಂಪನ್ಮೂಲಗಳನ್ನು ಬಳಸುವ ಮೊದಲು ಅತ್ಯಂತ ಆದ್ಯತೆಯ ವಿನಂತಿ ಮತ್ತು ಪ್ರದೇಶದ ಪರಿಣಾಮ ಪರಿಶೀಲಿಸಿ.",
     trainingAidDisclaimer: "ನಿಯಮಾಧಾರಿತ ತರಬೇತಿ ಸಾಧನ ಮಾತ್ರ. ನೈಜ ತುರ್ತು ಪರಿಸ್ಥಿತಿಗೆ ಬಳಸಬೇಡಿ.",
@@ -425,25 +397,11 @@ const translatedCopy: Record<Language, Partial<Record<CopyKey, string>>> = {
     fieldOperations: "मैदानी संचालन",
     resourceCoordination: "संसाधन समन्वय",
     publicInformation: "जन सूचना",
-    mapOverview: "सिम्युलेटेड दृश्य",
-    cityMap: "शहर नियंत्रण मानचित्र",
-    demonstrationData: "प्रदर्शन डेटा",
-    selectArea: "परिदृश्य · देखने के लिए चिह्नित क्षेत्र चुनें",
-    areaPicker: "क्षेत्र चुनें",
-    currentSelection: "चुना गया क्षेत्र",
+    mapOverview: "मंगलुरु · OPENSTREETMAP",
+    cityMap: "शहर का नक्शा",
     actionTypes: "कार्रवाई प्रकार",
     simulatedAreas: "सिम्युलेटेड क्षेत्र",
     impactPercent: "% प्रभाव",
-    layers: "मानचित्र परतें",
-    riskAreas: "सिम्युलेटेड जोखिम क्षेत्र",
-    servicePoints: "सिम्युलेटेड सेवा केंद्र",
-    geographicBasemap: "भौगोलिक आधार मानचित्र दिखाएँ (OpenStreetMap, बेंगलुरु)",
-    routePlanner: "सिम्युलेटेड मार्ग योजना",
-    fromArea: "शुरुआती क्षेत्र",
-    toArea: "गंतव्य क्षेत्र",
-    showRoute: "मार्ग दिखाएँ",
-    clearRoute: "मार्ग हटाएँ",
-    straightLine: "केवल उदाहरण हेतु सीधी रेखा—सड़क मार्ग या सुरक्षा सलाह नहीं।",
     loadout: "परिदृश्य संसाधन",
     resourceAllocation: "सिम्युलेटेड संसाधन आवंटन",
     incoming: "आने वाले",
@@ -535,7 +493,7 @@ const translatedCopy: Record<Language, Partial<Record<CopyKey, string>>> = {
     pending: "लंबित",
     medical: "चिकित्सा",
     shelter: "आश्रय",
-    mapAttribution: "डिफ़ॉल्ट रूप से काल्पनिक कमांड मानचित्र। वैकल्पिक OpenStreetMap आधार मानचित्र केवल भौगोलिक संदर्भ के लिए मध्य बेंगलुरु दिखाता है; चिह्नित क्षेत्र, केंद्र, मार्ग और स्थितियाँ सिम्युलेटेड हैं, सत्यापित नहीं।",
+    mapAttribution: "© OpenStreetMap योगदानकर्ता। मानचित्र मंगलुरु के अनुमानित शहरी क्षेत्र तक सीमित है; यह आधिकारिक नगर-निगम सीमा नहीं है। लाइव टाइलों के लिए इंटरनेट आवश्यक है।",
     illustrativeValues: "उदाहरण मान · संचालन संबंधी मार्गदर्शन नहीं",
     responseBriefDescription: "संसाधन देने से पहले सर्वोच्च प्राथमिकता वाले अनुरोध और क्षेत्र के प्रभाव की समीक्षा करें।",
     trainingAidDisclaimer: "केवल नियम-आधारित प्रशिक्षण साधन। वास्तविक आपातकाल में उपयोग न करें।",
@@ -580,11 +538,11 @@ const scenarioTerms: Record<Language, Record<string, string>> = {
     "Extreme heat": "ತೀವ್ರ ಬಿಸಿ",
     "Power outage": "ವಿದ್ಯುತ್ ವ್ಯತ್ಯಯ",
     Cyberattack: "ಸೈಬರ್ ದಾಳಿ",
-    "North Quarter": "ಉತ್ತರ ವಲಯ",
-    "Market District": "ಮಾರುಕಟ್ಟೆ ವಲಯ",
-    Riverside: "ನದಿತೀರ",
-    "South Quarter": "ದಕ್ಷಿಣ ವಲಯ",
-    "Industrial Zone": "ಕೈಗಾರಿಕಾ ವಲಯ",
+    Surathkal: "ಸುರತ್ಕಲ್",
+    Kadri: "ಕದ್ರಿ",
+    Hampankatta: "ಹಂಪನಕಟ್ಟೆ",
+    Bolar: "ಬೋಳಾರ್",
+    Baikampady: "ಬೈಕಂಪಾಡಿ",
     "Response vehicles": "ಪ್ರತಿಕ್ರಿಯೆ ವಾಹನಗಳು",
     "Rescue vehicles": "ರಕ್ಷಣಾ ವಾಹನಗಳು",
     "Medical vehicles": "ವೈದ್ಯಕೀಯ ವಾಹನಗಳು",
@@ -652,11 +610,6 @@ const scenarioTerms: Record<Language, Record<string, string>> = {
     "Secondary response request": "ಹೆಚ್ಚುವರಿ ಪ್ರತಿಕ್ರಿಯೆ ವಿನಂತಿ",
     "A new simulated call has arrived. Reassess area priority and response capacity.": "ಹೊಸ ಅನುಕರಿಸಿದ ಕರೆ ಬಂದಿದೆ. ಪ್ರದೇಶದ ಆದ್ಯತೆ ಮತ್ತು ಪ್ರತಿಕ್ರಿಯೆ ಸಾಮರ್ಥ್ಯವನ್ನು ಮರುಪರಿಶೀಲಿಸಿ.",
     Medical: "ವೈದ್ಯಕೀಯ",
-    "Central Medical Centre": "ಕೇಂದ್ರ ವೈದ್ಯಕೀಯ ಕೇಂದ್ರ",
-    "North Response Hospital": "ಉತ್ತರ ಪ್ರತಿಕ್ರಿಯೆ ಆಸ್ಪತ್ರೆ",
-    "Civic Shelter": "ನಾಗರಿಕ ಆಶ್ರಯ",
-    "Community Safe Centre": "ಸಮುದಾಯ ಸುರಕ್ಷಿತ ಕೇಂದ್ರ",
-    "South Support Centre": "ದಕ್ಷಿಣ ಸಹಾಯ ಕೇಂದ್ರ",
     Dispatch: "ನಿಯೋಜಿಸಿ",
     Allocate: "ಹಂಚಿ",
     "Send public alert": "ಸಾರ್ವಜನಿಕ ಎಚ್ಚರಿಕೆ ಕಳುಹಿಸಿ",
@@ -668,11 +621,11 @@ const scenarioTerms: Record<Language, Record<string, string>> = {
     "Extreme heat": "भीषण गर्मी",
     "Power outage": "बिजली बाधित",
     Cyberattack: "साइबर हमला",
-    "North Quarter": "उत्तर क्षेत्र",
-    "Market District": "बाज़ार क्षेत्र",
-    Riverside: "नदी किनारा",
-    "South Quarter": "दक्षिण क्षेत्र",
-    "Industrial Zone": "औद्योगिक क्षेत्र",
+    Surathkal: "सुरथकल",
+    Kadri: "कद्री",
+    Hampankatta: "हम्पनकट्टा",
+    Bolar: "बोलार",
+    Baikampady: "बैकम्पाडी",
     "Response vehicles": "प्रतिक्रिया वाहन",
     "Rescue vehicles": "बचाव वाहन",
     "Medical vehicles": "चिकित्सा वाहन",
@@ -740,11 +693,6 @@ const scenarioTerms: Record<Language, Record<string, string>> = {
     "Secondary response request": "दूसरा प्रतिक्रिया अनुरोध",
     "A new simulated call has arrived. Reassess area priority and response capacity.": "एक नया सिम्युलेटेड कॉल आया है। क्षेत्र की प्राथमिकता और प्रतिक्रिया क्षमता फिर जाँचें।",
     Medical: "चिकित्सा",
-    "Central Medical Centre": "केंद्रीय चिकित्सा केंद्र",
-    "North Response Hospital": "उत्तर प्रतिक्रिया अस्पताल",
-    "Civic Shelter": "नागरिक आश्रय",
-    "Community Safe Centre": "सामुदायिक सुरक्षित केंद्र",
-    "South Support Centre": "दक्षिण सहायता केंद्र",
     Dispatch: "भेजें",
     Allocate: "आवंटित करें",
     "Send public alert": "सार्वजनिक चेतावनी भेजें",
@@ -975,11 +923,11 @@ const crises: Crisis[] = [
 ];
 
 const baseZones: Omit<Zone, "risk" | "impact">[] = [
-  { id: "ward-1", name: "North Quarter", x: 18, y: 25, population: 820, vulnerable: 90 },
-  { id: "ward-2", name: "Market District", x: 50, y: 18, population: 1100, vulnerable: 150 },
-  { id: "ward-3", name: "Riverside", x: 78, y: 32, population: 1350, vulnerable: 240 },
-  { id: "ward-4", name: "South Quarter", x: 30, y: 70, population: 950, vulnerable: 180 },
-  { id: "ward-5", name: "Industrial Zone", x: 70, y: 75, population: 740, vulnerable: 130 },
+  { id: "ward-1", name: "Surathkal", x: 51, y: 15, population: 820, vulnerable: 90 },
+  { id: "ward-2", name: "Kadri", x: 74, y: 49, population: 1100, vulnerable: 150 },
+  { id: "ward-3", name: "Hampankatta", x: 49, y: 54, population: 1350, vulnerable: 240 },
+  { id: "ward-4", name: "Bolar", x: 42, y: 75, population: 950, vulnerable: 180 },
+  { id: "ward-5", name: "Baikampady", x: 50, y: 29, population: 740, vulnerable: 130 },
 ];
 
 function makeZones(crisis: Crisis): Zone[] {
@@ -1014,12 +962,6 @@ export default function Home() {
   const [crisisId, setCrisisId] = useState<CrisisId>("flood");
   const [roleId, setRoleId] = useState<RoleId>("command");
   const [language, setLanguage] = useState<Language>("en");
-  const [showRiskAreas, setShowRiskAreas] = useState(true);
-  const [showServicePoints, setShowServicePoints] = useState(true);
-  const [showGeographicBasemap, setShowGeographicBasemap] = useState(false);
-  const [routeFromZoneId, setRouteFromZoneId] = useState("ward-3");
-  const [routeToZoneId, setRouteToZoneId] = useState("ward-4");
-  const [routeVisible, setRouteVisible] = useState(false);
   const [presentationStep, setPresentationStep] = useState<number | null>(null);
   const [savedRuns, setSavedRuns] = useState<SavedRun[]>([]);
   const [runsLoaded, setRunsLoaded] = useState(false);
@@ -2018,109 +1960,16 @@ export default function Home() {
 
         <section className="pulse-primary space-y-5">
           <section className="pulse-map-panel overflow-hidden rounded-2xl">
-            <div className="pulse-map-heading flex flex-wrap items-center justify-between gap-3 px-5 py-4">
+            <div className="pulse-map-heading px-5 py-4">
               <div>
                 <p className="pulse-section-kicker">{t("mapOverview")}</p>
                 <h2>{t("cityMap")}</h2>
-                <p>
-                  {localize(crisis.name)} {t("selectArea")}
-                </p>
               </div>
-              <span className="pulse-map-tag">
-                <i aria-hidden="true" />
-                {t("demonstrationData")}
-              </span>
             </div>
 
             <CityMapLoader
-              selectedZoneId={selectedZoneId}
-              impact={selectedZone.impact}
-              crisisName={localize(crisis.name)}
-              crisisColor={crisis.color}
-              onSelectZone={setSelectedZoneId}
               language={language}
-              showRiskAreas={showRiskAreas}
-              showServicePoints={showServicePoints}
-              showGeographicBasemap={showGeographicBasemap}
-              routeFromZoneId={routeVisible ? routeFromZoneId : ""}
-              routeToZoneId={routeVisible ? routeToZoneId : ""}
             />
-
-            <section className="pulse-zone-picker" aria-labelledby="area-picker-heading">
-              <div className="pulse-zone-picker-heading">
-                <h3 id="area-picker-heading">{t("areaPicker")}</h3>
-                <p>{t("currentSelection")}: {localize(selectedZone.name)}</p>
-              </div>
-              <ul className="pulse-zone-picker-list">
-                {zones.map((zone) => (
-                  <li key={zone.id}>
-                    <button
-                      type="button"
-                      className={`pulse-zone-picker-option ${zone.id === selectedZoneId ? "is-selected" : ""}`}
-                      onClick={() => setSelectedZoneId(zone.id)}
-                      aria-pressed={zone.id === selectedZoneId}
-                    >
-                      <span>{localize(zone.name)}</span>
-                      <small>{t(riskLabel(zone.risk))} · {zone.risk}/100</small>
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            </section>
-
-            <div className="pulse-map-tools" aria-label={t("layers")}>
-              <p className="pulse-section-kicker">{t("layers")}</p>
-              <label>
-                <input
-                  type="checkbox"
-                  checked={showRiskAreas}
-                  onChange={(event) => setShowRiskAreas(event.target.checked)}
-                />
-                {t("riskAreas")}
-              </label>
-              <label>
-                <input
-                  type="checkbox"
-                  checked={showServicePoints}
-                  onChange={(event) => setShowServicePoints(event.target.checked)}
-                />
-                {t("servicePoints")}
-              </label>
-              <label>
-                <input
-                  type="checkbox"
-                  checked={showGeographicBasemap}
-                  onChange={(event) => setShowGeographicBasemap(event.target.checked)}
-                />
-                {t("geographicBasemap")}
-              </label>
-            </div>
-            <form
-              className="pulse-route-tools"
-              onSubmit={(event) => {
-                event.preventDefault();
-                setRouteVisible(true);
-              }}
-            >
-              <div>
-                <p className="pulse-section-kicker">{t("routePlanner")}</p>
-                <p>{t("straightLine")}</p>
-              </div>
-              <label>
-                <span>{t("fromArea")}</span>
-                <select value={routeFromZoneId} onChange={(event) => setRouteFromZoneId(event.target.value)}>
-                  {zones.map((zone) => <option key={zone.id} value={zone.id}>{localize(zone.name)}</option>)}
-                </select>
-              </label>
-              <label>
-                <span>{t("toArea")}</span>
-                <select value={routeToZoneId} onChange={(event) => setRouteToZoneId(event.target.value)}>
-                  {zones.map((zone) => <option key={zone.id} value={zone.id}>{localize(zone.name)}</option>)}
-                </select>
-              </label>
-              <button type="submit" disabled={routeFromZoneId === routeToZoneId}>{t("showRoute")}</button>
-              {routeVisible && <button type="button" className="pulse-clear-route" onClick={() => setRouteVisible(false)}>{t("clearRoute")}</button>}
-            </form>
 
             <div className="pulse-map-attribution px-4 py-2">
               {t("mapAttribution")}

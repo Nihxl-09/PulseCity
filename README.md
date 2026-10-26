@@ -1,16 +1,16 @@
 # PulseCity
 
-PulseCity is a crisis-response training simulator. Its city areas, service points, requests, routes, and outcomes are fictional demonstration data and are not operational emergency guidance.
+PulseCity is a crisis-response training simulator. Its exercise areas, requests, and outcomes are fictional demonstration data and are not operational emergency guidance.
 
-The response brief is rule-based; this app does not use a trained AI model. The map defaults to a fictional illustrated command-map style with dark buildings and roads, green parks, blue water, and circular simulated risk areas. An optional OpenStreetMap basemap shows central Bengaluru for geographic context and requires an internet connection; all scenario areas, facilities, routes, and conditions remain fictional. If basemap tiles fail, the app displays a notice while keeping the simulated area overlays available and provides a retry control.
+The response brief is rule-based; this app does not use a trained AI model. The interactive map uses Leaflet and live OpenStreetMap tiles centered on Mangaluru, Karnataka. The map displays OpenStreetMap data without simulated area, facility, or route overlays. Crisis areas and conditions remain part of the separate training exercise and are not displayed as map overlays. The map is constrained to an approximate rectangular Mangaluru urban extent; no verified official city-boundary polygon is bundled. Map tiles require an internet connection, and a retry notice appears if they fail to load.
 
 ## Model and map scope
 
 - **Model:** There is no trained or connected AI model. The response brief uses deterministic rules to highlight the most urgent pending request and highest-risk area. Scores and scenario changes are fixed prototype training effects; they have not been validated as real-world response measures. Before adding AI, define its intended use, permitted data, safety boundaries, and evaluation plan.
-- **Fictional map:** The default map's roads, landcover, buildings, circular risk areas, service points, requests, and scenario conditions are illustrative demo geometry and data.
-- **Optional geographic context:** The OpenStreetMap toggle loads a real basemap of central Bengaluru. It does not validate or locate the fictional overlays. Keep attribution visible when enabled.
-- **Routes and use:** Displayed routes are straight illustrative lines between simulated areas, not road routing, travel-time estimates, safe paths, or operational advice. Do not use the model, scores, map overlays, or routes for real emergencies.
-- **Tile service:** Enabling OpenStreetMap sends map tile requests to the public OSM tile service. Keep the fictional map selected for offline demos, and do not treat the optional basemap as an operational map.
+- **Map and boundary:** Leaflet displays the standard OpenStreetMap tile service at `https://tile.openstreetmap.org/{z}/{x}/{y}.png`. The starting view is centered on Mangaluru at zoom 14.5, and panning is restricted to an approximate urban map extent of 12.80–12.94° N, 74.79–74.90° E. This rectangular navigation extent is not an official Mangaluru City Corporation boundary; no verified municipal polygon was available for this implementation. Areas outside the map extent are visually masked.
+- **Map and exercise are separate:** The map contains only the OpenStreetMap basemap; the app adds no fictional risk areas, facilities, or routes. Scenario areas and requests remain in the separate training exercise and are not verified real-world information.
+- **Use:** Exercise scores and scenario changes are illustrative prototype mechanics. Do not use the simulator for real emergencies.
+- **Tile service and offline use:** Viewing the map sends normal interactive tile requests to the public OSM tile service. Attribution is displayed on the map. Do not bulk-download, prefetch, or package tiles from the public OSM tile server. For offline use, obtain a Mangaluru-region OSM data extract from a permitted source such as Geofabrik, check its current data licence and attribution requirements, and generate/host tiles with a local tile server or choose a tile provider that explicitly permits offline packages. This project does not include offline tiles.
 
 ## Requirements
 
@@ -61,7 +61,7 @@ To confirm persistence before the demo, complete an exercise, restart the app se
 2. Use the guided presentation, if helpful, to introduce the training-only purpose and simulated data.
 3. Select a role, start an exercise, inspect an area and its requests, then dispatch actions.
 4. Show how actions affect the simulated scenario and review the completed report and shared run history.
-5. If demonstrating the map, point out that facilities and routes are fictional; the route is illustrative, not navigation.
+5. The map shows live OpenStreetMap data; exercise scenario data is kept separate from the map.
 6. Before a fresh session, back up any run history you want to keep, then run `npm run reset:demo` and type `RESET` to clear the shared saved-run list.
 
 ## API

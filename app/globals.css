@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "leaflet/dist/leaflet.css";
 
 :root {
   color-scheme: dark;
@@ -148,13 +149,6 @@ button:disabled {
 }
 
 .pulse-status i,
-.pulse-map-tag i {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: #b6bd9b;
-}
-
 .pulse-status.is-live i {
   background: #e37b56;
   box-shadow: 0 0 0 3px rgb(227 123 86 / 18%);
@@ -215,39 +209,9 @@ button:disabled {
   letter-spacing: -0.025em;
 }
 
-.pulse-map-heading > div > p:last-child {
-  margin: 0;
-  color: var(--muted);
-  font-size: 12px;
-}
-
-.pulse-map-heading > div > p:last-child span {
-  padding: 0 4px;
-  color: #b7a991;
-}
-
 .pulse-section-kicker {
   color: #818878;
   font-size: 9px;
-}
-
-.pulse-map-tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 7px 9px;
-  border: 1px solid var(--line);
-  border-radius: 5px;
-  color: #68756b;
-  font-size: 8px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-}
-
-.pulse-map-tag i {
-  width: 6px;
-  height: 6px;
-  background: #b27945;
 }
 
 .pulse-map-attribution {
@@ -939,10 +903,6 @@ button:disabled {
     padding: 13px;
   }
 
-  .pulse-map-tag {
-    display: none;
-  }
-
   .pulse-map-attribution {
     padding: 7px 11px;
     font-size: 9px;
@@ -1002,8 +962,7 @@ button:disabled {
   font-size: 10px;
 }
 
-.pulse-language select,
-.pulse-route-tools select {
+.pulse-language select {
   min-height: 35px;
   padding: 6px 9px;
   border: 1px solid #41535d;
@@ -1014,8 +973,7 @@ button:disabled {
   font-size: 11px;
 }
 
-.pulse-language option,
-.pulse-route-tools option {
+.pulse-language option {
   background: #17232a;
   color: #edf3f4;
 }
@@ -1101,166 +1059,6 @@ button:disabled {
 .pulse-role-queue strong {
   flex: none;
   color: #f0c47b;
-}
-
-.pulse-map-tools {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 9px 17px;
-  padding: 12px 16px;
-  border-top: 1px solid var(--line);
-  background: #131c22;
-}
-
-.pulse-zone-picker {
-  padding: 12px 16px;
-  border-top: 1px solid var(--line);
-  background: #111a20;
-}
-
-.pulse-zone-picker-heading {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 10px;
-  margin-bottom: 9px;
-}
-
-.pulse-zone-picker-heading h3 {
-  margin: 0;
-  color: #e2e9eb;
-  font-size: 11px;
-  font-weight: 700;
-}
-
-.pulse-zone-picker-heading p {
-  margin: 0;
-  color: #a7b3b8;
-  font-size: 10px;
-}
-
-.pulse-zone-picker-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 140px), 1fr));
-  gap: 7px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.pulse-zone-picker-option {
-  display: grid;
-  width: 100%;
-  min-height: 42px;
-  gap: 3px;
-  padding: 7px 9px;
-  border: 1px solid #34464e;
-  border-radius: 6px;
-  background: #17232a;
-  color: #dce5e7;
-  text-align: left;
-}
-
-.pulse-zone-picker-option span {
-  font-size: 10px;
-  font-weight: 700;
-}
-
-.pulse-zone-picker-option small {
-  color: #a8b5ba;
-  font-size: 9px;
-}
-
-.pulse-zone-picker-option:hover {
-  border-color: #718779;
-  background: #1d302d;
-}
-
-.pulse-zone-picker-option.is-selected {
-  border-color: #83bd9b;
-  background: #203a30;
-  box-shadow: inset 3px 0 #83bd9b;
-}
-
-.pulse-zone-picker-option:focus-visible {
-  outline: 2px solid #e4c889;
-  outline-offset: 2px;
-}
-
-.pulse-map-tools .pulse-section-kicker {
-  color: #a6b3b8;
-}
-
-.pulse-map-tools label {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  color: #cad5d8;
-  font-size: 10px;
-}
-
-.pulse-map-tools input {
-  width: 15px;
-  height: 15px;
-  accent-color: #82c8a4;
-}
-
-.pulse-route-tools {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: end;
-  gap: 10px;
-  padding: 13px 16px;
-  border-top: 1px solid var(--line);
-  background: #10191f;
-}
-
-.pulse-route-tools > div {
-  flex: 1 1 210px;
-}
-
-.pulse-route-tools > div > p:last-child {
-  margin: 4px 0 0;
-  color: #9eabb2;
-  font-size: 9px;
-  line-height: 1.45;
-}
-
-.pulse-route-tools label {
-  display: grid;
-  gap: 4px;
-  color: #aab7bd;
-  font-size: 9px;
-}
-
-.pulse-route-tools select {
-  min-width: 120px;
-}
-
-.pulse-route-tools > button {
-  min-height: 35px;
-  padding: 7px 11px;
-  border: 1px solid #477763;
-  border-radius: 6px;
-  background: #21483a;
-  color: #e9f6ef;
-  font-size: 10px;
-  font-weight: 700;
-}
-
-.pulse-route-tools > button:hover:not(:disabled) {
-  background: #2c5d49;
-}
-
-.pulse-route-tools > button:disabled {
-  opacity: 0.45;
-}
-
-.pulse-route-tools > .pulse-clear-route {
-  border-color: #43515a;
-  background: transparent;
-  color: #c0cbd0;
 }
 
 .pulse-team-access {
@@ -1496,8 +1294,6 @@ button:disabled {
 }
 
 /* Dark surfaces and text contrast for the existing civic-console components. */
-.pulse-map-heading > div > p:last-child,
-.pulse-map-tag,
 .pulse-allocation-heading > p,
 .pulse-info p:first-child,
 .pulse-report-label,
@@ -1511,12 +1307,10 @@ button:disabled {
   color: #a4b0b6;
 }
 
-.pulse-map-heading > div > p:last-child span,
 .pulse-request-meta span {
   color: #829097;
 }
 
-.pulse-map-tag,
 .pulse-presentation-top button {
   border-color: #34464e;
 }
@@ -1691,37 +1485,66 @@ button:disabled {
   background: #34704f;
 }
 
-.pulse-city-map.is-geographic .maplibregl-canvas {
+.pulse-city-map.is-geographic .leaflet-tile-pane {
   filter: brightness(0.72) saturate(0.72);
 }
 
-.pulse-city-map.is-fictional .maplibregl-canvas {
-  filter: none;
-}
-
-.pulse-city-map.is-fictional .pulse-map-overlay {
+.pulse-city-map.is-geographic .pulse-map-overlay {
   border-color: #3b4e53;
   background: rgb(15 25 29 / 92%);
   color: #e5ece8;
   box-shadow: 0 4px 14px rgb(0 0 0 / 28%);
 }
 
-.pulse-city-map.is-fictional .pulse-map-overlay p.text-emerald-300 {
+.pulse-city-map.is-geographic .pulse-map-overlay p.text-emerald-300 {
   color: #8ec7a4;
 }
 
-.pulse-city-map.is-fictional .pulse-map-overlay p.text-slate-300 {
+.pulse-city-map.is-geographic .pulse-map-overlay p.text-slate-300 {
   color: #aebbb9;
 }
 
-.pulse-city-map.is-fictional .maplibregl-ctrl-group {
+.pulse-city-map .leaflet-control-attribution {
   border-color: #3b4e53 !important;
-  background: #142126 !important;
   box-shadow: 0 3px 10px rgb(0 0 0 / 28%);
 }
 
-.pulse-city-map.is-fictional .maplibregl-ctrl-group button {
-  filter: invert(0.85);
+.pulse-city-map .leaflet-control-attribution {
+  background: #142126;
+  color: #e5ece8;
+}
+
+.pulse-city-map .leaflet-control-attribution a {
+  color: #a8d0bc;
+}
+
+.pulse-city-map .leaflet-popup-content-wrapper,
+.pulse-city-map .leaflet-popup-tip {
+  background: #152129;
+  color: #e8edf0;
+}
+
+.pulse-city-map .leaflet-popup-content p {
+  margin: 5px 0 0;
+  color: #c0c9c9;
+}
+
+.pulse-city-map .leaflet-tooltip {
+  border: 1px solid #52655e;
+  background: #152129;
+  color: #e8edf0;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 32%);
+}
+
+.pulse-city-map .leaflet-tooltip-top::before {
+  border-top-color: #52655e;
+}
+
+.pulse-city-map .leaflet-tooltip.pulse-map-label {
+  border-radius: 999px;
+  padding: 3px 7px;
+  font-size: 10px;
+  font-weight: 700;
 }
 
 .pulse-map-fallback {
@@ -1770,27 +1593,6 @@ button:disabled {
   outline-offset: 2px;
 }
 
-.maplibregl-popup-content {
-  border: 1px solid #34464f;
-  background: #152129;
-  color: #e8edf0;
-}
-
-.maplibregl-popup-tip {
-  border-top-color: #152129 !important;
-  border-bottom-color: #152129 !important;
-}
-
-.maplibregl-ctrl-group {
-  overflow: hidden;
-  border: 1px solid #394a51 !important;
-  background: #17232a !important;
-}
-
-.maplibregl-ctrl-group button {
-  filter: invert(0.85);
-}
-
 @media (max-width: 639px) {
   .pulse-header-meta {
     flex-wrap: wrap;
@@ -1808,50 +1610,6 @@ button:disabled {
     grid-template-columns: minmax(0, 1fr);
   }
 
-  .pulse-map-legend {
-    bottom: 10px;
-    left: 10px;
-    gap: 8px;
-    padding: 7px 9px;
-    font-size: 9px;
-  }
-
-  .pulse-zone-picker {
-    padding: 11px;
-  }
-
-  .pulse-zone-picker-heading {
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 4px;
-  }
-
-  .pulse-zone-picker-list {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .pulse-map-route-notice {
-    right: 10px;
-    bottom: 54px;
-    left: 10px;
-    width: fit-content;
-    max-width: calc(100% - 20px);
-    margin-inline: auto;
-    text-align: center;
-    font-size: 9px;
-  }
-
-  .pulse-route-tools {
-    align-items: stretch;
-  }
-
-  .pulse-route-tools label {
-    flex: 1 1 130px;
-  }
-
-  .pulse-route-tools select {
-    width: 100%;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
