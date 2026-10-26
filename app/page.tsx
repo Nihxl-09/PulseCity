@@ -1382,7 +1382,14 @@ export default function Home() {
   }, [runsLoadAttempt]);
 
   useEffect(() => {
-    if (!finished || running || activeRunId.current === null) return;
+    if (
+      !finished ||
+      running ||
+      teamAccess !== "signed-in" ||
+      activeRunId.current === null
+    ) {
+      return;
+    }
     const runId = activeRunId.current;
     if (savedRunIds.current.has(runId)) return;
     const run = {
@@ -1454,6 +1461,7 @@ export default function Home() {
     openedSafeZones.length,
     outcomes.length,
     runsLoadAttempt,
+    teamAccess,
   ]);
 
   useEffect(() => {
