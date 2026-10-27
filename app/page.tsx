@@ -959,6 +959,7 @@ function riskLabel(risk: number): CopyKey {
 }
 
 export default function Home() {
+  const [activeVisual, setActiveVisual] = useState<string | null>("flood");
   const [crisisId, setCrisisId] = useState<CrisisId>("flood");
   const [roleId, setRoleId] = useState<RoleId>("command");
   const [language, setLanguage] = useState<Language>("en");
@@ -1652,6 +1653,7 @@ export default function Home() {
 
     activeRunId.current = Date.now();
     resetForCrisis(nextCrisis.id);
+    setActiveVisual(nextCrisis.id === "flood" ? "flood" : null);
     setRunning(true);
     setEvents([
       {
@@ -1967,7 +1969,7 @@ export default function Home() {
         </section>
 
         <section className="pulse-primary space-y-5">
-          <section className="pulse-map-panel overflow-hidden rounded-2xl">
+          <section className="pulse-map-panel overflow-hidden rounded-2xl relative">
             <div className="pulse-map-heading px-5 py-4">
               <div>
                 <p className="pulse-section-kicker">{t("mapOverview")}</p>
@@ -1975,9 +1977,33 @@ export default function Home() {
               </div>
             </div>
 
-            <CityMapLoader
-              language={language}
-            />
+            <div className="relative">
+              <CityMapLoader language={language} />
+
+              {activeVisual === "flood" && (
+                <div className="absolute inset-0 z-10 flex animate-pulse flex-col items-center justify-center border-4 border-sky-500/60 bg-sky-950/40 p-4 backdrop-blur-[0.5px]">
+                  <div className="rounded-2xl border border-sky-400 bg-sky-900/90 px-6 py-3 text-center font-bold text-sky-200 shadow-2xl">
+                    🌊 FLOOD SIMULATION ACTIVE
+                    <br />
+                    <span className="text-xs font-normal text-sky-300">
+                      Water levels rising in Hampankatta &amp; Bolar
+                    </span>
+                  </div>
+                </div>
+              )}
+
+              {activeVisual === "landslide" && (
+                <div className="absolute inset-0 z-10 flex animate-pulse flex-col items-center justify-center border-4 border-amber-500/60 bg-amber-950/40 p-4 backdrop-blur-[0.5px]">
+                  <div className="rounded-2xl border border-amber-400 bg-amber-900/90 px-6 py-3 text-center font-bold text-amber-200 shadow-2xl">
+                    ⚠️ LANDSLIDE HAZARD DETECTED
+                    <br />
+                    <span className="text-xs font-normal text-amber-300">
+                      Evacuation route blocked near hilly terrain
+                    </span>
+                  </div>
+                </div>
+              )}
+            </div>
 
             <div className="pulse-map-attribution px-4 py-2">
               {t("mapAttribution")}
@@ -2523,3 +2549,10 @@ function ActionButton({
     </button>
   );
 }
+<>
+<div className="clay-card-dark p-6 relative overflow-hidden">
+</div>
+<button className="clay-pill-btn px-6 py-3 text-white font-medium">
+  Deploy Resources
+</button>
+</>
